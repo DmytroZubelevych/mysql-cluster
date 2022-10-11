@@ -111,7 +111,8 @@ actions:
         cmd[${this.id}]: cd /etc/mysql/conf.d && wget ${globals.CUSTOM_CONF} &>> /var/log/run.log
         user: root
     - cmd[${this.id}]: |-
-        [ -e /etc/systemd/system/mariadb.service.d ] && true || wget ${globals.PATH}/scripts/mysql -O /etc/init.d/mysql; chmod +x /usr/local/sbin/setMySQLOOMScore;
+        [ -e /etc/systemd/system/mariadb.service.d ] && wget ${globals.PATH}/scripts/mariadb-systemd-override.conf -O /etc/systemd/system/mariadb.service.d/bootstrap.conf || wget ${globals.PATH}/scripts/mysql -O /etc/init.d/mysql;
+        chmod +x /usr/local/sbin/setMySQLOOMScore; echo '/etc/systemd/system/mariadb.service.d/bootstrap.conf' >> /etc/jelastic/redeploy.conf; systemctl daemon-reload
       user: root
     - cmd[${this.id}]: |-
         wget ${globals.PATH}/configs/galera.cnf -O ${globals.GALERA_CONF} &>> /var/log/run.log
