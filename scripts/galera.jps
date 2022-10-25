@@ -64,6 +64,7 @@ onAfterStart:
   - cmd[sqldb]: jem service stop
   - cmd[sqldb]: |-
       export SAFE_TO_BOOTSTRAP=$(awk '/^safe_to_bootstrap:/{print $2}' /var/lib/mysql/grastate.dat); [ $SAFE_TO_BOOTSTRAP -eq 1 ] && /usr/bin/galera_new_cluster || true;
+    user: root
   - cmd[sqldb]: jem service start
   - if (nodes.proxy):
       cmd[proxy]: sudo service proxysql restart
